@@ -3,7 +3,7 @@ class Solution:
         c = set()
         d = set()
         d2 = set()
-        def backtrack(r):
+        def backtrack(row):
             if row == n:
                 return 1
             cnt = 0

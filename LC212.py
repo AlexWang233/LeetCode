@@ -1,43 +1,37 @@
+from functools import reduce
+from collections import defaultdict
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        m, n = len(board), len(board[0])
-        have, trie, self.res = set(), {}, []
         
-        for i in range(m):
-            for j in range(1, n):
-                have.add(board[i][j] + board[i][j-1])
-        for i in range(1, m):
-            for j in range(n):
-                have.add(board[i][j] + board[i-1][j])
+        # create trie
+        Trie = lambda: defaultdict(Trie)
+        trie = Trie()
+        END = True
         
-        for w in words:
-            for i in range(len(w)-1):
-                a, b = w[i], w[i+1]
-                if a+b not in have and b+a not in have: break
-                else:
-                    node = trie
-                    for c in w:
-                        if c not in node: node[c] = {}
-                        node = node[c]
-                    node['*'] = w
+        for word in words:
+            reduce(dict.__getitem__,word,trie)[END] = word
         
-        def dfs(i, j, node):
-            node = node[board[i][j]]
-            if '*' in node:
-                self.res.append(node['*'])
-                del node['*']
+        res = set()
+        def findstr(i,j,t):
+            if END in t:
+                res.add(t[END])
+                # return
+            letter = board[i][j]
+            board[i][j] = ""
+            if i > 0 and board[i-1][j] in t:
+                findstr(i-1,j,t[board[i-1][j]])
+            if j>0 and board[i][j-1] in t:
+                findstr(i,j-1,t[board[i][j-1]])
+            if i < len(board)-1 and board[i+1][j] in t:
+                findstr(i+1,j,t[board[i+1][j]])
+            if j < len(board[0])-1 and board[i][j+1] in t:
+                findstr(i,j+1,t[board[i][j+1]])
+            board[i][j] = letter
             
-            tmp, board[i][j] = board[i][j], '*'
-            for x, y in (0, 1), (0, -1), (1, 0), (-1, 0):
-                I, J = i+x, j+y
-                if not (0 <= I < m and 0 <= J < n and board[I][J] in node): continue
-                dfs(I, J, node)
-                if len(node[board[I][J]]) == 0: del node[board[I][J]]
-            board[i][j] = tmp
-
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] in trie:
-                    dfs(i, j, trie)
+            return 
         
-        return self.res
+        for i, row in enumerate(board):
+            for j, char in enumerate(row):
+                if board[i][j] in trie:
+                    findstr(i,j,trie[board[i][j]])
+        return res

@@ -12,6 +12,7 @@ Array.prototype.snail = function (rowsCount, colsCount) {
     .map(() => []);
   // console.log(res);
   for (let i = 0; i < this.length; i++) {
+    const j = Math.floor(i / rowsCount);
     if (j % 2 == 0) {
       res[i % rowsCount].push(this[i]);
     } else {

@@ -3,7 +3,17 @@ class Solution:
         l = len(cookies)
         distribution = [0] * k
 
-        ans = 10 ** 7
+        # algorithm to produce preliminary result
+        hq = [0] * k
+        cookies.sort(reverse = True)
+        for c in cookies:
+            # see which child has least cookies and give them current bag
+            n = heapq.heappop(hq)  
+            n += c
+            heapq.heappush(hq, n)
+        ans = max(hq)
+
+
         def backtrack(i):
             nonlocal ans
             if i == l:
@@ -17,6 +27,7 @@ class Solution:
                 distribution[j] += cookies[i]
                 backtrack(i + 1)
                 distribution[j] -= cookies[i]
-                
+        
+        # backtrack afterwards since prelim result is better than initial worst case (all cookies to 1 person)
         backtrack(0)
         return ans

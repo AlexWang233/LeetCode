@@ -4,8 +4,14 @@ class Solution:
         visited = {(0, 0)}
 
         for direction in path:
-            x += 1 if direction == 'E' else (-1 if direction == 'W' else 0)
-            y += 1 if direction == 'N' else (-1 if direction == 'S' else 0)
+            if direction == 'E':
+                x += 1
+            elif direction == 'W':
+                x -= 1
+            elif direction == 'N':
+                y += 1
+            elif direction == 'S':
+                y -= 1
 
             if (x, y) in visited:
                 return True

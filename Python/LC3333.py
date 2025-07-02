@@ -33,7 +33,6 @@ class Solution:
             # new_dp[i] represent number of strings of length i with current group
             # dp[i] represents number of strings of length i w/o current group
             new_dp = [0] * k
-            sum_val = 0
             for s in range(1, k):
                 # append a character from current group can make a string of length i
                 # add from dp[s-1] not dp[s] bc we need at least 1 from current group

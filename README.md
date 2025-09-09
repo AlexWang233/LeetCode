@@ -14,4 +14,4 @@ Each solution file is named according to the LeetCode problem number, for exampl
 
 ## LeetCode Profile
 
-You can find my LeetCode profile here: [My LeetCode Profile](https://leetcode.com/u/alexthelegend233/)1
+You can find my LeetCode profile here: [My LeetCode Profile](https://leetcode.com/u/alexthelegend233/)
